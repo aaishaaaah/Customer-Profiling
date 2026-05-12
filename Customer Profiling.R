@@ -30,7 +30,12 @@ summary(rfm)
 
 n_distinct(cleandata$`Customer ID`)  
   
-  
+###EDA###
+ggplot(data = rfm , aes(x = monetary)) +
+  geom_histogram(bins = 50, fill = "pink", colour = "lightblue") +
+  scale_x_log10(labels = label_currency(prefix = "£")) +
+  labs(title = "Distribution of Customer Monetary Value", x = "Total Spent (log)", y = "Number of Customers")+
+  theme_minimal()
   
   
   
