@@ -6,7 +6,7 @@ library(dplyr)
 
 glimpse(data)
 
-###clean the data###
+####clean the data####
 cleandata <- data %>%
   filter(!grepl("^C", Invoice)) %>%
   filter(Quantity>0, Price>0) %>%
@@ -16,7 +16,7 @@ cleandata <- mutate(cleandata, sales = Quantity*Price)
 
 UKdata <- filter(cleandata, Country == "United Kingdom")
   
-###RFM scores###
+####RFM scores####
 analysisdata <- as.Date("2011-12-09")
 
 rfm <-UKdata %>%
@@ -30,16 +30,27 @@ summary(rfm)
 
 n_distinct(cleandata$`Customer ID`)  
   
-###EDA###
+####EDA####
 ggplot(data = rfm , aes(x = monetary)) +
   geom_histogram(bins = 50, fill = "pink", colour = "lightblue") +
   scale_x_log10(labels = label_currency(prefix = "£")) +
   labs(title = "Distribution of Customer Monetary Value", x = "Total Spent (log)", y = "Number of Customers")+
   theme_minimal()
   
-  
-  
-  
+####Fix skewness####
+rfmlog <- rfm %>%
+  mutate(
+    recencylog = log(recency + 1),
+    frequencylog = log(frequency + 1),
+    monetarylog = log(monetary + 1)
+  )
+   
+
+####Standardise####
+rfmSTD <- scale(rfmlog[c("recencylog", "frequencylog", "monetarylog" )])
+
+####Number of Clusters (K)####  
+
   
   
   
