@@ -3,6 +3,8 @@ library(lubridate)
 library(cluster)
 library(scales)
 library(dplyr)
+library(ggplot2)
+library(factoextra)
 
 glimpse(data)
 
@@ -50,8 +52,15 @@ rfmlog <- rfm %>%
 rfmSTD <- scale(rfmlog[c("recencylog", "frequencylog", "monetarylog" )])
 
 ####Number of Clusters (K)####  
+set.seed(2026)
 
-  
+WCSS <- numeric(10)
+for(k in 1:10){
+  km <- kmeans(rfmSTD, centers = k, nstart = 25)
+  WCSS[k] <- km$tot.withinss
+}
+
+plot( 1:10, WCSS, type = "b", pch = 19, col = "pink", lwd = 2, xlab = "Number of Clusters (K)", ylab = "WCSS", main = "Elbow Method")  
   
   
   
