@@ -61,6 +61,55 @@ for(k in 1:10){
 }
 
 plot( 1:10, WCSS, type = "b", pch = 19, col = "pink", lwd = 2, xlab = "Number of Clusters (K)", ylab = "WCSS", main = "Elbow Method")  
-  
+ 
+####Compare K=2 and K=4 #### 
+improvement <- data.frame(
+  From_K = 1:9,
+  To_K = 2:10,
+  WCSS_Improvement = -diff(WCSS),
+  Pct_Improvement = -diff(WCSS) / WCSS[1:9] * 100
+)
+ improvement
+
+ cat("\n=== Interpretation ===\n")
+ for(i in 1:nrow(improvement)) {
+   cat(sprintf("K=%d → K=%d: Improvement = %.1f (%.1f%%)\n", 
+               improvement$From_K[i], 
+               improvement$To_K[i],
+               improvement$WCSS_Improvement[i],
+               improvement$Pct_Improvement[i]))
+ }
+
+
+####Kmeans Clustering####
+k <- 4
+ 
+result <- kmeans(rfmSTD, centers = k , nstart = 25)
+
+rfmfinal <- rfmlog %>%
+  mutate(cluster = as.factor(result$cluster))
+
+table(rfmfinal$cluster)
+
+####Interpretation and Segmentation####
+clusterprofile <- rfmfinal %>%
+  group_by(cluster) %>%
+  summary(count = n(), recencyavg = mean(recency), frequencyavg = mean(frequency), monetaryavg = mean(monetary))
+
+print(clusterprofile)
+
+ggplot(rfmfinal, aes(x = cluster, y = monetary, fill = cluster)) +
+  geom_boxplot() +
+  scale_y_log10(labels = label_currency(prefix = "£")) +
+  labs(title = "Monetary Value Distribution by Customer Segment",
+       y = "Total Spent (Log Scale)") +
+  theme_minimal()
+
+
+
+
+
+
+
   
   
