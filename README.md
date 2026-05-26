@@ -50,10 +50,10 @@ The marketing team needs to move beyond one-size-fits-all campaigns. By understa
 ### Visualizations
 
 Elbow Method
-- *Optimal K selection using elbow method*
+- Optimal K selection using elbow method
 
 Monetary Distribution by Segment
-- *Monetary value distribution across segments*
+- Monetary value distribution across segments
 
 ---
 
