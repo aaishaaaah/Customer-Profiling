@@ -17,7 +17,7 @@ The marketing team needs to move beyond one-size-fits-all campaigns. By understa
 - **4 distinct customer segments** identified
 - **Top 19% of customers** (Champions) generate 60% of revenue
 - **35% of customers** identified as at-risk requiring re-engagement
-- **Actionable recommendations** provided for each segment
+
 
 ---
 
